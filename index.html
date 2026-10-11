@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>@bastasiange</title>
+  <meta name="description" content="Find me around the internet.">
+  <meta name="theme-color" content="#120a24">
+
+  <!-- Fonts: Cormorant Garamond (display) + Manrope (UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Manrope:wght@500;600&display=swap">
+
+  <!-- Icons: Font Awesome (brand icons for Facebook, Instagram, TikTok) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" referrerpolicy="no-referrer">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Ambient background (decorative) -->
+  <div class="orb orb--one" aria-hidden="true"></div>
+  <div class="orb orb--two" aria-hidden="true"></div>
+  <div class="orb orb--three" aria-hidden="true"></div>
+  <canvas id="particles" aria-hidden="true"></canvas>
+
+  <main class="stage">
+    <article class="card">
+
+      <div class="avatar reveal" style="--i: 0">
+        <span class="avatar__glow" aria-hidden="true"></span>
+        <span class="avatar__ring" aria-hidden="true"></span>
+        <div class="avatar__frame">
+          <img src="fate.jpg" alt="Profile photo of @bastasiange" width="400" height="400">
+          <i class="fa-solid fa-user avatar__fallback" aria-hidden="true"></i>
+        </div>
+      </div>
+
+      <h1 class="handle reveal" style="--i: 1">@bastasiange</h1>
+      <p class="tagline reveal" style="--i: 2">Find me around the internet.</p>
+
+      <nav aria-label="Social media">
+        <ul class="links">
+          <li class="reveal" style="--i: 3">
+            <a class="link" href="https://www.facebook.com/share/19mPWwH1aS/"
+               target="_blank" rel="noopener noreferrer"
+               aria-label="Facebook, opens in a new tab">
+              <span class="link__icon"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i></span>
+              <span class="link__label">Facebook</span>
+              <i class="fa-solid fa-arrow-up-right-from-square link__ext" aria-hidden="true"></i>
+            </a>
+          </li>
+          <li class="reveal" style="--i: 4">
+            <a class="link" href="https://www.instagram.com/spoockyge_/"
+               target="_blank" rel="noopener noreferrer"
+               aria-label="Instagram, opens in a new tab">
+              <span class="link__icon"><i class="fa-brands fa-instagram" aria-hidden="true"></i></span>
+              <span class="link__label">Instagram</span>
+              <i class="fa-solid fa-arrow-up-right-from-square link__ext" aria-hidden="true"></i>
+            </a>
+          </li>
+          <li class="reveal" style="--i: 5">
+            <a class="link" href="https://www.tiktok.com/@bastasiange"
+               target="_blank" rel="noopener noreferrer"
+               aria-label="TikTok, opens in a new tab">
+              <span class="link__icon"><i class="fa-brands fa-tiktok" aria-hidden="true"></i></span>
+              <span class="link__label">TikTok</span>
+              <i class="fa-solid fa-arrow-up-right-from-square link__ext" aria-hidden="true"></i>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+    </article>
+  </main>
+
+  <footer class="footer reveal" style="--i: 6">
+    <small>&copy; <span id="year">2026</span> @bastasiange</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

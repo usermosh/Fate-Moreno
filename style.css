@@ -1,0 +1,323 @@
+/* ==========================================================================
+   Purple identity card — style.css
+   Sections: tokens · base · background · card · avatar · links · footer · motion
+   ========================================================================== */
+
+/* ---------- Design tokens ---------- */
+:root {
+  --bg-deep:      #0d0620;   /* near-black violet */
+  --bg-mid:       #1a0b3a;   /* midnight purple */
+  --bg-glow:      #2b1260;   /* lit purple */
+  --accent:       #8b5cf6;   /* vivid violet */
+  --accent-soft:  #c4b5fd;   /* lavender */
+  --text:         #f0eaff;   /* primary text (high contrast on dark) */
+  --text-muted:   #c3b6e6;   /* secondary text (still AA on dark) */
+
+  --glass:        rgba(30, 14, 64, 0.55);
+  --glass-edge:   rgba(196, 181, 253, 0.18);
+  --glass-hover:  rgba(139, 92, 246, 0.22);
+
+  --font-display: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
+  --font-ui:      "Manrope", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --ease-out:     cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+/* ---------- Base ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { color-scheme: dark; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font-ui);
+  color: var(--text);
+  background:
+    radial-gradient(120% 80% at 50% 0%, var(--bg-glow) 0%, transparent 60%),
+    linear-gradient(170deg, var(--bg-mid) 0%, var(--bg-deep) 70%);
+  background-color: var(--bg-deep);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { display: block; max-width: 100%; }
+ul  { list-style: none; margin: 0; padding: 0; }
+
+:focus-visible {
+  outline: 2px solid var(--accent-soft);
+  outline-offset: 4px;
+}
+
+/* ---------- Ambient background ---------- */
+.orb {
+  position: fixed;
+  z-index: 0;
+  border-radius: 50%;
+  filter: blur(70px);
+  opacity: 0.5;
+  pointer-events: none;
+  animation: drift 22s ease-in-out infinite alternate;
+}
+.orb--one   { width: 38vmax; height: 38vmax; top: -12vmax; left: -10vmax; background: #6d28d9; }
+.orb--two   { width: 30vmax; height: 30vmax; bottom: -10vmax; right: -8vmax; background: #a78bfa; opacity: 0.32; animation-duration: 28s; animation-delay: -6s; }
+.orb--three { width: 20vmax; height: 20vmax; top: 45%; left: 55%; background: #4c1d95; opacity: 0.45; animation-duration: 34s; animation-delay: -12s; }
+
+#particles {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ---------- Layout ---------- */
+.stage {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: clamp(1.5rem, 5vw, 3rem) 1.25rem 1rem;
+}
+
+/* ---------- Card (glassmorphism) ---------- */
+.card {
+  width: min(100%, 26rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: clamp(2rem, 6vw, 2.75rem) clamp(1.25rem, 5vw, 2rem) clamp(1.75rem, 5vw, 2.25rem);
+  text-align: center;
+  background: var(--glass);
+  border: 1px solid var(--glass-edge);
+  border-radius: 2rem;
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  backdrop-filter: blur(22px) saturate(140%);
+  box-shadow:
+    0 30px 80px -20px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+    0 1px 0 rgba(255, 255, 255, 0.08) inset;
+}
+
+/* ---------- Avatar ---------- */
+.avatar {
+  position: relative;
+  width: clamp(9.5rem, 42vw, 11rem);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+}
+
+.avatar__glow {
+  position: absolute;
+  inset: -22%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.55) 0%, transparent 65%);
+  filter: blur(18px);
+  animation: breathe 6s ease-in-out infinite;
+}
+
+/* Slowly rotating lavender ring — the one memorable detail */
+.avatar__ring {
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #8b5cf6, #e9d5ff, #6d28d9, #c4b5fd, #8b5cf6);
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+          mask: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2px));
+  animation: spin 14s linear infinite;
+}
+
+.avatar__frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 4px solid var(--bg-deep);
+  background: linear-gradient(145deg, #3b1a7a, #1a0b3a);
+  box-shadow: 0 0 40px rgba(139, 92, 246, 0.45);
+}
+
+.avatar__frame img {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Shown only if fate.jpg fails to load (see script.js) */
+.avatar__fallback {
+  position: absolute;
+  inset: 0;
+  display: none;
+  place-items: center;
+  font-size: 3.5rem;
+  color: var(--accent-soft);
+}
+.avatar--empty img { display: none; }
+.avatar--empty .avatar__fallback { display: grid; }
+
+/* ---------- Identity text ---------- */
+.handle {
+  margin: 1.6rem 0 0.35rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: clamp(2.1rem, 8vw, 2.6rem);
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  text-shadow: 0 0 28px rgba(167, 139, 250, 0.55);
+  overflow-wrap: anywhere;
+}
+
+.tagline {
+  margin: 0 0 2rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+/* ---------- Social links ---------- */
+.links {
+  width: 100%;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.link {
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 3.75rem;           /* large tap target */
+  padding: 0.7rem 1.1rem 0.7rem 0.8rem;
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.02rem;
+  background: rgba(139, 92, 246, 0.1);
+  border: 1px solid var(--glass-edge);
+  border-radius: 1.1rem;
+  overflow: hidden;
+  transition:
+    transform 0.28s var(--ease-out),
+    box-shadow 0.28s var(--ease-out),
+    border-color 0.28s ease,
+    background-color 0.28s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Cursor-following spotlight (position set by script.js) */
+.link::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  background: radial-gradient(14rem circle at var(--mx) var(--my), rgba(196, 181, 253, 0.28), transparent 70%);
+  transition: opacity 0.3s ease;
+}
+
+.link__icon {
+  flex: none;
+  width: 2.45rem;
+  height: 2.45rem;
+  display: grid;
+  place-items: center;
+  font-size: 1.15rem;
+  color: #fff;
+  border-radius: 0.8rem;
+  background: linear-gradient(145deg, #8b5cf6, #5b21b6);
+  box-shadow: 0 6px 16px -4px rgba(109, 40, 217, 0.8);
+  transition: transform 0.28s var(--ease-out);
+}
+
+.link__label { flex: 1; text-align: left; }
+
+.link__ext {
+  flex: none;
+  font-size: 0.8rem;
+  color: var(--accent-soft);
+  opacity: 0.7;
+  transition: transform 0.28s var(--ease-out), opacity 0.28s ease;
+}
+
+.link:hover,
+.link:focus-visible {
+  transform: translateY(-3px);
+  background: var(--glass-hover);
+  border-color: rgba(196, 181, 253, 0.55);
+  box-shadow: 0 14px 34px -10px rgba(139, 92, 246, 0.75), 0 0 0 1px rgba(196, 181, 253, 0.15) inset;
+}
+.link:hover::before,
+.link:focus-visible::before { opacity: 1; }
+.link:hover .link__icon,
+.link:focus-visible .link__icon { transform: scale(1.08) rotate(-4deg); }
+.link:hover .link__ext,
+.link:focus-visible .link__ext { opacity: 1; transform: translate(2px, -2px); }
+
+.link:active {
+  transform: translateY(0) scale(0.98);
+  transition-duration: 0.1s;
+}
+
+/* ---------- Footer ---------- */
+.footer {
+  position: relative;
+  z-index: 2;
+  padding: 1.25rem 1rem calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ---------- Motion ---------- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin    { to { transform: rotate(360deg); } }
+@keyframes breathe { 0%, 100% { opacity: 0.7; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
+@keyframes drift {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to   { transform: translate3d(4vmax, 3vmax, 0) scale(1.12); }
+}
+
+/* One staggered entrance sequence on load */
+.reveal {
+  animation: rise 0.9s var(--ease-out) both;
+  animation-delay: calc(var(--i, 0) * 110ms + 150ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Small / large screen tuning ---------- */
+@media (max-width: 360px) {
+  .link { font-size: 0.95rem; gap: 0.75rem; }
+}
+
+@media (min-width: 768px) {
+  .card { width: 27rem; }
+}
+
+/* Browsers without backdrop-filter get a more opaque card for legibility */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .card { background: rgba(26, 11, 58, 0.92); }
+}
